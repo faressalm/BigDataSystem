@@ -1,6 +1,6 @@
-package com.example.demo;
+package packages.models;
 
-public class Disk {
+public class RAM {
     public  double Total ;
     public double Free ;
 }

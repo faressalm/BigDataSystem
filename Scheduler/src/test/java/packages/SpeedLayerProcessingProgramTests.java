@@ -1,13 +1,13 @@
-package com.tasks.Scheduler;
+package packages;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SchedulerApplicationTests {
+class SpeedLayerProcessingProgramTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }
