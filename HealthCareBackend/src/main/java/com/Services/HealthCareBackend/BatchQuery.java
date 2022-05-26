@@ -48,7 +48,6 @@ public class BatchQuery {
             );
             while (rs.next()) {
                 messages.add(HealthMessage.mapToHealthMessage(rs));
-//                System.out.println(messages.get(messages.size()-1).toString());
             }
             rs.close();
         } catch (SQLException e) {
@@ -56,8 +55,6 @@ public class BatchQuery {
         }
         return messages;
     }
-
-    //(['./../*.parquet','./*.parquet'])
     private String appendDirectoriesNames(ArrayList < String > list) {
         StringBuilder stringBuilder = new StringBuilder("([");
         stringBuilder.append("'");
