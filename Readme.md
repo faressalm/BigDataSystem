@@ -10,10 +10,14 @@ The goal of this project is to apply the learned theories and use the learned to
 
 ### Serving Layer
 
-Trigger Map-Reduce to build Batch
+* Trigger Map-Reduce to build Batch
 Views periodically. The generation of the Batch Views will be fully controlled by
 the scheduler.
-
+* Implemented 2 Map-Reduce jobs, the first job output is aggregate of messages for each service per minute(60 * 24 = 1440 record).It is used to serve queries that requires checking timestamp of the day. 
+the second job output is aggegate of messages for each service per day.
+* The idea behind doing 2 jobs is to get better performance. As the query takes 2 parameters start and end timestamps. it's obvious that  all days belongs to ]start , end[ preiod are included so no need to query over 1440 records and just take the aggregate of them which the second job provides.
+* Batch Views are updated everyday in an incremental way.
+* Outputs are saved in parquet format.
 ### Speed Layer
 Speed layer that has an input stream of health messages
 and outputs and stores the current analytical results of the required analytics in the
