@@ -48,7 +48,13 @@ public class SpeedLayerProcessing {
                 .format("memory")
                 .trigger(Trigger.ProcessingTime(1_000))
                 .start();
-        query.awaitTermination(10000);
+        while (query.isActive()){
+            if(Objects.nonNull(query.lastProgress()) && query.lastProgress().numInputRows() == 0){
+                query.stop();
+                break;
+            }
+            Thread.sleep(1000);
+        }
         Dataset<Row> parWrite = spark.sql("SELECT * FROM tempTable");
         Dataset<Row> ss = parWrite.groupBy(col("id"),col("Timestamp"))
                 .agg(
@@ -59,12 +65,7 @@ public class SpeedLayerProcessing {
                         max("ram_utl").as("peakRAM"),
                         max("disk_utl").as("peakDisk"),
                         count("id").as("counter"));
-        ss.write().mode(SaveMode.Append).parquet("honaaa.parquet");
-        /*parWrite.write().format("console")
-                .option("path", "tryparquet")
-                .option("checkpointLocation", "chcekpoint");*/
-        //parWrite.show(10);
-
-
+        ss.write().mode(SaveMode.Append).parquet("pathFor.parquet");
+ 
     }
 }
